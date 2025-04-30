@@ -15,7 +15,7 @@ const int SWING_SPEED = 110;
 ///
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(50.0, 0.01, 100);         // Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_drive_constants_set(20.0, 0.01, 100.0);         // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
   chassis.pid_turn_constants_set(3.0, 0.05, 20.0, 15.0);     // Turn in place constants]
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants
@@ -50,10 +50,21 @@ void default_constants() {
 
 ///
 // Drive Example
-///
+void testDrive(){
+   piston.set_value(true);
+   chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+
+  chassis.pid_swing_set(ez::RIGHT_SWING, 40_deg, SWING_SPEED, 32);
+   chassis.pid_wait();
+
+   chassis.pid_drive_set(-10_in, 30, true);
+   chassis.pid_wait();
+  //piston.set_value(false);
+}
 void drive_example() {
   // The first parameter is target inches
-  // The second parameter is max speed the robot will drive at
+  // The second parameter is smax speed the robot will drive at
   // The third parameter is a boolean (true or false) for enabling/disabling a slew at the start of drive motions
   // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
 

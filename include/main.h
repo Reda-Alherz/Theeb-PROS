@@ -88,3 +88,6 @@ void opcontrol(void);
 #endif
 
 #endif  // _PROS_MAIN_H_
+
+extern pros::ADIDigitalOut piston;
+extern pros::Motor arm_motor;
