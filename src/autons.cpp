@@ -60,8 +60,10 @@ void testDrive(){
 
    chassis.pid_drive_set(-10_in, 30, true);
    chassis.pid_wait();
-  //piston.set_value(false);
+  piston.set_value(false);
 }
+
+
 void drive_example() {
   // The first parameter is target inches
   // The second parameter is smax speed the robot will drive at

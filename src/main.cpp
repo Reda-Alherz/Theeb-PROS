@@ -17,10 +17,10 @@ ez::Drive chassis(
 
 
 pros::Motor chain(1);
-pros::Motor intake(2);
+pros::Motor intake(15);
 pros::ADIDigitalOut piston('A');
 bool piston_extended = true;
-pros::Motor arm_motor(15, pros::v5::MotorGears::red,pros::v5::MotorUnits::deg);
+pros::Motor arm_motor(2, pros::v5::MotorGears::red,pros::v5::MotorUnits::deg);
 
 
 // Uncomment the trackers you're using here!
