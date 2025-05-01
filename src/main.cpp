@@ -281,22 +281,70 @@ void opcontrol() {
       piston.set_value(piston_extended);
     }
 
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-      //arm_motor.move_relative(360,50);  
-      arm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-      arm_motor.move_absolute(90,40);
-      pros::delay(500); // wait ~0.5 sec for first move
-      arm_motor.move_absolute(360,80);
-    }
+    // if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+    //   //arm_motor.move_relative(360,50);  
+    //   arm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    //   arm_motor.move_absolute(90,40);
+    //   pros::delay(500); // wait ~0.5 sec for first move
+    //   arm_motor.move_absolute(360,80);
+    // }
  
-    else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-      //arm_motor.move_relative(-360,50);  
-      arm_motor.move_absolute(0,80);
+    // else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+    //   //arm_motor.move_relative(-360,50);  
+    //   arm_motor.move_absolute(0,80);
+    // }
+
+    // else {
+    //   arm_motor.move_velocity(0);  
+    // }
+    
+
+
+    // arm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);  // Ensure brake hold is always active
+
+    // if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+    //   arm_motor.move_velocity(40);   // Rotate at speed 40
+    // } 
+    // else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+    //   arm_motor.move_velocity(127);  // Rotate at speed 127
+    // } 
+    // else {
+    //   arm_motor.move_velocity(0);    // Stop and hold position
+    // }
+
+
+    arm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);  // Always hold when stopped
+    arm_motor.move_absolute(-30, 80);
+
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+      if (arm_motor.get_position() < 90) {
+        arm_motor.move_velocity(25);    // Forward slow until 90°
+      } else {
+        arm_motor.move_velocity(90);   // Forward fast after 90°
+      }
+    }  
+    else {
+      // No button: move to position 0°
+      if (arm_motor.get_position() != -30) {  // Allow small error window (~5 degrees)
+        arm_motor.move_absolute(-30, 80);    // Go to 0° at speed 80
+      } else {
+        arm_motor.move_velocity(0);        // Already at 0°, stop
+      }
     }
 
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+      arm_motor.move_velocity(-90);    // Reverse full speed
+    } 
     else {
-      arm_motor.move_velocity(0);  
+      // No button: move to position 0°
+      if (arm_motor.get_position() != -30) {  // Allow small error window (~5 degrees)
+        arm_motor.move_absolute(-30, 80);    // Go to 0° at speed 80
+      } else {
+        arm_motor.move_velocity(0);        // Already at 0°, stop
+      }
     }
+    
+    
 
 
     // . . .
