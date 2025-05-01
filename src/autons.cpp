@@ -52,15 +52,20 @@ void default_constants() {
 // Drive Example
 void testDrive(){
    piston.set_value(true);
-   chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
+   chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
    chassis.pid_wait();
 
-  chassis.pid_swing_set(ez::RIGHT_SWING, 40_deg, SWING_SPEED, 32);
+  chassis.pid_swing_set(ez::RIGHT_SWING, 55_deg, SWING_SPEED, 32);
+   chassis.pid_wait();
+   chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
    chassis.pid_wait();
 
-   chassis.pid_drive_set(-10_in, 30, true);
+   chassis.pid_swing_set(ez::LEFT_SWING, 0_deg, SWING_SPEED, -30);
    chassis.pid_wait();
-  piston.set_value(false);
+
+   chassis.pid_drive_set(-1.5_in, 30, true);
+   chassis.pid_wait();
+   piston.set_value(false);
 }
 
 

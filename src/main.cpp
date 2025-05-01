@@ -24,7 +24,7 @@ pros::Motor arm_motor(2, pros::v5::MotorGears::red,pros::v5::MotorUnits::deg);
 
 
 // Uncomment the trackers you're using here!
-// - `8` and `9` are smart ports (making these negative will reverse the sensor)
+// - `8` andvha `9` are smart ports (making these negative will reverse the sensor)
 //  - you should get positive values on the encoders going FORWARD and RIGHT
 // - `2.75` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
@@ -67,7 +67,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"Test 25 ", testDrive},
+      {"Test 2 ", testDrive},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
@@ -276,7 +276,7 @@ void opcontrol() {
       intake.move(0);
     }
 
-    if (master.get_digital(DIGITAL_A)) {
+    if (master.get_digital_new_press(DIGITAL_A)) {
       piston_extended = !piston_extended;  
       piston.set_value(piston_extended);
     }
