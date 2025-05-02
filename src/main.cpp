@@ -16,8 +16,8 @@ ez::Drive chassis(
     360);   // Wheel RMP = cartridge * (motor gear / wheel gear)
 
 
-pros::Motor chain(1);
-pros::Motor intake(15);
+// pros::Motor chain(1);
+// pros::Motor intake(15);
 pros::ADIDigitalOut piston('A');
 bool piston_extended = true;
 pros::Motor arm_motor(2, pros::v5::MotorGears::red,pros::v5::MotorUnits::deg);
@@ -266,13 +266,13 @@ void opcontrol() {
     // . . .
     // Put more user control code here!
     if (master.get_digital(DIGITAL_R2)) {
-      chain.move(127);  
+      //chain.move(127);  
       intake.move(-127);
     } else if (master.get_digital(DIGITAL_L2)) {
-      chain.move(-127);
+      //chain.move(-127);
       intake.move(127);
     } else {
-      chain.move(0);    
+     // chain.move(0);    
       intake.move(0);
     }
 
@@ -281,31 +281,36 @@ void opcontrol() {
       piston.set_value(piston_extended);
     }
 
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { 
-      arm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-      int postion1;
-      postion1=100;
-         arm_motor.move_absolute(postion1, 40); // Moves 100 units forward
-         while (!((arm_motor.get_position() < postion1+5) && (arm_motor.get_position() > postion1-5))) {
-           // Continue running this loop as long as the mg is not within +-5 units of its goal
-           pros::delay(2);
-        }
-        postion1=360;
-        arm_motor.move_absolute(postion1, 127); // Moves 100 units forward
-        while (!((arm_motor.get_position() < postion1+5) && (arm_motor.get_position() > postion1-5))) {
-          // Continue running this loop as long as the mg is not within +-5 units of its goal
-          pros::delay(2);
-       }
-       arm_motor.set_zero_position_all(0);
-      // arm_motor.move_absolute(90,40);
-      // pros::delay(1000); // wait ~0.5 sec for first move
-      // arm_motor.move_absolute(360,80);
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+      //arm_motor.move_relative(-360,50);  
+      arm_motor.move(100);
+    }
+    else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { 
+      // arm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+      // int postion1;
+      // postion1=180;
+      //    arm_motor.move_absolute(postion1, 30); // Moves 100 units forward
+      //    while (!((arm_motor.get_position() < postion1+5) && (arm_motor.get_position() > postion1-5))) {
+      //      // Continue running this loop as long as the mg is not within +-5 units of its goal
+      //      pros::delay(2);
+      //   }
+      //   postion1=360;
+      //   arm_motor.move_absolute(postion1, 100); // Moves 100 units forward
+      //   while (!((arm_motor.get_position() < postion1+5) && (arm_motor.get_position() > postion1-5))) {
+      //     // Continue running this loop as long as the mg is not within +-5 units of its goal
+      //     pros::delay(2);
+      //  }
+      //  arm_motor.set_zero_position_all(0);
+      // // arm_motor.move_absolute(90,40);
+      // // pros::delay(1000); // wait ~0.5 sec for first move
+      // // arm_motor.move_absolute(360,80);
+      arm_motor.move(30);
     }
  
-    else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-      //arm_motor.move_relative(-360,50);  
-      arm_motor.move_absolute(0,80);
-    }
+    // else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+    //   //arm_motor.move_relative(-360,50);  
+    //   arm_motor.move(100);
+    // }
 
     else {
       arm_motor.move_velocity(0);  

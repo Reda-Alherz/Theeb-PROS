@@ -57,15 +57,24 @@ void testDrive(){
 
   chassis.pid_swing_set(ez::RIGHT_SWING, 55_deg, SWING_SPEED, 32);
    chassis.pid_wait();
-   chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
+   chassis.pid_drive_set(-9_in, DRIVE_SPEED, true);
    chassis.pid_wait();
 
    chassis.pid_swing_set(ez::LEFT_SWING, 0_deg, SWING_SPEED, -30);
    chassis.pid_wait();
 
-   chassis.pid_drive_set(-1.5_in, 30, true);
+   chassis.pid_drive_set(-4_in, 30, true);
    chassis.pid_wait();
-   piston.set_value(false);
+   piston.set_value(false); /// mobile goal token
+
+   chassis.pid_drive_set(23_in, 30, true);
+   chassis.pid_wait_until(3_in);
+   intake.move(-127);
+   chassis.pid_wait_until(15_in);
+   piston.set_value(false); /// mobile goal token
+   chassis.pid_wait_quick_chain();
+   
+   //chassis.pid_wait();
 }
 
 

@@ -46,6 +46,7 @@
 // More includes here...
 #include "autons.hpp"
 #include "subsystems.hpp"
+#include "globals.hpp"
 
 
 /**
@@ -89,5 +90,3 @@ void opcontrol(void);
 
 #endif  // _PROS_MAIN_H_
 
-extern pros::ADIDigitalOut piston;
-extern pros::Motor arm_motor;
