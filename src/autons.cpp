@@ -66,12 +66,12 @@ void testDrive(){
    chassis.pid_drive_set(-4_in, 30, true);
    chassis.pid_wait();
    piston.set_value(false); /// mobile goal token
-
-   chassis.pid_drive_set(23_in, 30, true);
+  pros::delay(500);
+   chassis.pid_drive_set(32_in, 30, true);
    chassis.pid_wait_until(3_in);
    intake.move(-127);
    chassis.pid_wait_until(15_in);
-   piston.set_value(false); /// mobile goal token
+   piston.set_value(true); /// mobile goal token
    chassis.pid_wait_quick_chain();
    
    //chassis.pid_wait();
