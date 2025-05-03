@@ -51,6 +51,7 @@ void default_constants() {
 ///
 // Drive Example
 void testDrive(){
+
    piston.set_value(true);
    chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
    chassis.pid_wait();
@@ -67,14 +68,31 @@ void testDrive(){
    chassis.pid_wait();
    piston.set_value(false); /// mobile goal token
   pros::delay(500);
-   chassis.pid_drive_set(32_in, 30, true);
+
+   chassis.pid_drive_set(32_in, 30, true);  
    chassis.pid_wait_until(3_in);
    intake.move(-127);
-   chassis.pid_wait_until(15_in);
-   piston.set_value(true); /// mobile goal token
+   chassis.pid_wait_until(19_in);
+   piston.set_value(true); /// mobile goal left
+   chassis.pid_wait_until(31_in);
+   intake.move(0);
    chassis.pid_wait_quick_chain();
    
-   //chassis.pid_wait();
+
+  //  to the color stake
+   chassis.pid_drive_set(9_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+   chassis.pid_turn_set(-90_deg, TURN_SPEED);   
+   chassis.pid_wait();
+   chassis.pid_drive_set(-53_in, 90, true);
+   chassis.pid_wait();
+   chassis.pid_drive_set(7_in, 60, true);
+   chassis.pid_wait();
+   chassis.pid_turn_set(-180_deg, TURN_SPEED);   
+   chassis.pid_wait();
+   chassis.pid_drive_set(-8_in, 60, true);
+   chassis.pid_wait();
+
 }
 
 
