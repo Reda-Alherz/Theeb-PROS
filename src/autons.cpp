@@ -70,7 +70,7 @@ void testDrive(){
   pros::delay(500);
 
    chassis.pid_drive_set(32_in, 30, true);  
-   chassis.pid_wait_until(3_in);
+   chassis.pid_wait_until(3.25_in);
    intake.move(-127);
    chassis.pid_wait_until(19_in);
    piston.set_value(true); /// mobile goal left
@@ -86,11 +86,17 @@ void testDrive(){
    chassis.pid_wait();
    chassis.pid_drive_set(-53_in, 90, true);
    chassis.pid_wait();
-   chassis.pid_drive_set(7_in, 60, true);
+   chassis.pid_drive_set(6.5_in, 60, true);
    chassis.pid_wait();
-   chassis.pid_turn_set(-180_deg, TURN_SPEED);   
+   chassis.pid_turn_set(-177_deg, TURN_SPEED);   
    chassis.pid_wait();
-   chassis.pid_drive_set(-8_in, 60, true);
+   chassis.pid_drive_set(-6.25_in, 60, true);
+   chassis.pid_wait();
+
+
+   intake.move(-127);
+   pros::delay(1500);
+   chassis.pid_drive_set(30_in,DRIVE_SPEED , true);
    chassis.pid_wait();
 
 }
