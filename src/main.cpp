@@ -19,8 +19,16 @@ ez::Drive chassis(
 // pros::Motor chain(1);
 // pros::Motor intake(15);
 pros::ADIDigitalOut piston('A');
-bool piston_extended = true;
+bool piston_extended =false;
 pros::Motor arm_motor(2, pros::v5::MotorGears::red,pros::v5::MotorUnits::deg);
+
+bool reverceMode = false;
+
+bool climpStatus = true;
+pros::ADIDigitalOut Climbclamp('H');
+
+// pros::MotorGroup right({11, 12, 14, 16});
+// pros::MotorGroup left({-19, -18, -17, -13});
 
 
 // Uncomment the trackers you're using here!
@@ -67,7 +75,9 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"Test 2 ", testDrive},
+      {"Khabbaz",khabbazDrive},
+      {"Reda ", testDrive},
+      {"Skills", skillsTest_1},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
@@ -88,6 +98,7 @@ void initialize() {
   chassis.initialize();
   ez::as::initialize();
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
+  chassis.pid_tuner_disable();
 }
 
 /**
@@ -213,9 +224,9 @@ void ez_template_extras() {
 
     // Enable / Disable PID Tuner
     //  When enabled:
-    //  * use A and Y to increment / decrement the constants
-    //  * use the arrow keys to navigate the constants
-    if (master.get_digital_new_press(DIGITAL_X))
+     //  * use A and Y to increment / decrement the constants
+     // //  * use the arrow keys to navigate the constants
+    if (master.get_digital_new_press(DIGITAL_Y))
       chassis.pid_tuner_toggle();
 
     // Trigger the selected autonomous routine
@@ -256,8 +267,16 @@ void opcontrol() {
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
-
+    if (reverceMode==false){
     chassis.opcontrol_tank();  // Tank control
+    }
+    else if(reverceMode==true){
+      int rightValue = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+      int leftValue = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+      left1.move(leftValue);
+      right1.move(rightValue);
+    }
+    arm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     // chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
@@ -281,43 +300,31 @@ void opcontrol() {
       piston.set_value(piston_extended);
     }
 
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+    if (master.get_digital(DIGITAL_L1)) {
       //arm_motor.move_relative(-360,50);  
       arm_motor.move(100);
     }
-    else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { 
-      // arm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-      // int postion1;
-      // postion1=180;
-      //    arm_motor.move_absolute(postion1, 30); // Moves 100 units forward
-      //    while (!((arm_motor.get_position() < postion1+5) && (arm_motor.get_position() > postion1-5))) {
-      //      // Continue running this loop as long as the mg is not within +-5 units of its goal
-      //      pros::delay(2);
-      //   }
-      //   postion1=360;
-      //   arm_motor.move_absolute(postion1, 100); // Moves 100 units forward
-      //   while (!((arm_motor.get_position() < postion1+5) && (arm_motor.get_position() > postion1-5))) {
-      //     // Continue running this loop as long as the mg is not within +-5 units of its goal
-      //     pros::delay(2);
-      //  }
-      //  arm_motor.set_zero_position_all(0);
-      // // arm_motor.move_absolute(90,40);
-      // // pros::delay(1000); // wait ~0.5 sec for first move
-      // // arm_motor.move_absolute(360,80);
-      arm_motor.move(30);
+    else if (master.get_digital(DIGITAL_R1)) { 
+      arm_motor.move(40);
     }
- 
-    // else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-    //   //arm_motor.move_relative(-360,50);  
-    //   arm_motor.move(100);
-    // }
 
     else {
       arm_motor.move_velocity(0);  
     }
 
+    if (master.get_digital(DIGITAL_X)){
+      arm_motor.move_velocity(-100);
+    }
 
-    // . . .
+    if (master.get_digital_new_press(DIGITAL_UP)){
+      reverceMode=false;    
+      master.print(0,0,"%s","forward");
+    }
+    else if (master.get_digital_new_press(DIGITAL_DOWN)){
+      reverceMode=true;
+      master.print(0,0,"%s","reversed");
+    }
+
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

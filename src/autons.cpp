@@ -52,7 +52,77 @@ void default_constants() {
 // Drive Example
 void testDrive(){
 
-   piston.set_value(true);
+
+   piston.set_value(false);
+   chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+
+   chassis.pid_turn_set(45_deg, TURN_SPEED);
+   chassis.pid_wait();
+
+   chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+
+   chassis.pid_turn_set(0_deg, TURN_SPEED);
+   chassis.pid_wait();
+
+   chassis.pid_drive_set(-9_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+   chassis.pid_drive_set(-4_in, 50, true);
+   chassis.pid_wait();
+   piston.set_value(true); //mobile
+
+   intake.move(-127); //scored begin
+
+   chassis.pid_drive_set(39_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+
+
+  pros::delay(200);
+  intake.move(0); //scored end
+
+   chassis.pid_turn_set(-90_deg, TURN_SPEED);
+   chassis.pid_wait();
+
+
+   
+   chassis.pid_drive_set(-54_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+
+   piston.set_value(false); //mogo end
+
+
+      
+   chassis.pid_drive_set(6.25_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+
+
+   chassis.pid_turn_set(-177_deg, TURN_SPEED);
+   chassis.pid_wait();
+
+   chassis.pid_drive_set(-7.5_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+
+
+   intake.move(-127);
+   pros::delay(2000);
+   intake.move(0);
+
+   chassis.pid_drive_set(10_in, 127, true);
+   chassis.pid_wait();
+
+   
+   chassis.pid_drive_set(-15_in, 127, true);
+   chassis.pid_wait();
+
+   
+   chassis.pid_drive_set(32_in, 80, true);
+   chassis.pid_wait();
+}
+void khabbazDrive(){
+  arm_motor.move_absolute(-90,127);
+  
+   piston.set_value(false);
    chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
    chassis.pid_wait();
 
@@ -64,16 +134,16 @@ void testDrive(){
    chassis.pid_swing_set(ez::LEFT_SWING, 0_deg, SWING_SPEED, -30);
    chassis.pid_wait();
 
-   chassis.pid_drive_set(-4_in, 30, true);
+   chassis.pid_drive_set(-4.5_in, 30, true);
    chassis.pid_wait();
-   piston.set_value(false); /// mobile goal token
+   piston.set_value(true); /// mobile goal token
   pros::delay(500);
 
-   chassis.pid_drive_set(32_in, 30, true);  
+   chassis.pid_drive_set(32_in, 80, true);  
    chassis.pid_wait_until(3.25_in);
    intake.move(-127);
-   chassis.pid_wait_until(19_in);
-   piston.set_value(true); /// mobile goal left
+   chassis.pid_wait_until(29_in);
+   piston.set_value(false); /// mobile goal left
    chassis.pid_wait_until(31_in);
    intake.move(0);
    chassis.pid_wait_quick_chain();
@@ -84,22 +154,141 @@ void testDrive(){
    chassis.pid_wait();
    chassis.pid_turn_set(-90_deg, TURN_SPEED);   
    chassis.pid_wait();
+   pros::delay(9000); //wait slee5 to go away ///11000
    chassis.pid_drive_set(-53_in, 90, true);
    chassis.pid_wait();
-   chassis.pid_drive_set(6.5_in, 60, true);
+   chassis.pid_drive_set(8_in, 60, true);
    chassis.pid_wait();
    chassis.pid_turn_set(-177_deg, TURN_SPEED);   
    chassis.pid_wait();
-   chassis.pid_drive_set(-6.25_in, 60, true);
+   chassis.pid_drive_set(-6.9_in, 60, true);
    chassis.pid_wait();
 
 
    intake.move(-127);
-   pros::delay(1500);
-   chassis.pid_drive_set(30_in,DRIVE_SPEED , true);
-   chassis.pid_wait();
-
+   pros::delay(2500);
+  chassis.pid_drive_set(30_in,DRIVE_SPEED , true);
+  chassis.pid_wait();
 }
+
+void skillsTest_1(){
+  // get mobile goal
+  chassis.pid_drive_set(-8_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(30_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  piston.set_value(true); /// mobile goal taken
+
+  //score first ring
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
+  intake.move(-127);
+  chassis.pid_wait_quick_chain(); // ring scored
+
+  //score two rings more
+  chassis.pid_drive_set(63_in, DRIVE_SPEED, true);
+  intake.move(-127);
+  chassis.pid_wait_until(32_in);
+  chassis.pid_speed_max_set(50); //to the corner
+  chassis.pid_wait_quick_chain(); /// two rings are taken
+
+  //to the corner
+  chassis.pid_drive_set(-5_in, 50, true);
+  intake.move(-127);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_set(135_deg, TURN_SPEED);
+  chassis.pid_wait();
+  piston.set_value(false); /// mobile goal left
+  chassis.pid_drive_set(-7_in, DRIVE_SPEED, true);
+  chassis.pid_wait(); ////corner approved
+
+  //to the wall goal
+  chassis.pid_drive_set(30_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(57_in, DRIVE_SPEED, true);
+  intake.move(-127);
+  chassis.pid_wait_until(52_in);
+  intake.move(0);
+  chassis.pid_wait();
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
+  intake.move(-127);
+  chassis.pid_wait_quick_chain(); ///// wall goal scored
+
+  //to the red in the middle
+  chassis.pid_drive_set(5_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(135, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(74_in, DRIVE_SPEED, true);
+  intake.move(-127);
+  chassis.pid_wait_until(70_in);
+  intake.move(0);
+  chassis.pid_wait();// red in the robot
+
+  //to the mobile goal
+  chassis.pid_turn_set(-45, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-31_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  piston.set_value(true); //mobile goal taken
+
+  //t
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
+  intake.move(-127);
+  chassis.pid_wait_quick_chain(); ///// wall goal scored
+  chassis.pid_turn_set(-135_deg, TURN_SPEED);
+
+  chassis.pid_wait();
+  chassis.pid_drive_set(67_in, 50, true);
+  intake.move(-127);
+  chassis.pid_wait_until(32_in);
+  chassis.pid_speed_max_set(DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(45_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-7_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  piston.set_value(false); //mobile goal left
+
+  chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(57_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  intake.move(-127);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
+  intake.move(-127);
+  chassis.pid_wait_quick_chain();
+
+  //clamp
+  chassis.pid_turn_set(45_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(45_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-45_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(23_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  Climbclamp.set_value(true);
+}
+
 
 
 void drive_example() {
