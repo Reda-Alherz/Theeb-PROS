@@ -18,7 +18,7 @@ void default_constants() {
   chassis.pid_drive_constants_set(20.0, 0.01, 100.0);         // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
   chassis.pid_turn_constants_set(3.0, 0.05, 20.0, 15.0);     // Turn in place constants]
-  chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants
+  chassis.pid_swing_constants_set(6.0, 0.0, 50.0);           // Swing constants //(6,0,65)
   chassis.pid_odom_angular_constants_set(6.5, 0.0, 52.5);    // Angular control for odom motions
   chassis.pid_odom_boomerang_constants_set(5.8, 0.0, 32.5);  // Angular control for boomerang motions
 
@@ -48,82 +48,11 @@ void default_constants() {
   chassis.pid_angle_behavior_set(ez::shortest);  // Changes the default behavior for turning, this defaults it to the shortest path there
 }
 
-///
-// Drive Example
-void testDrive(){
-
-
-   piston.set_value(false);
-   chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
-   chassis.pid_wait();
-
-   chassis.pid_turn_set(45_deg, TURN_SPEED);
-   chassis.pid_wait();
-
-   chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
-   chassis.pid_wait();
-
-   chassis.pid_turn_set(0_deg, TURN_SPEED);
-   chassis.pid_wait();
-
-   chassis.pid_drive_set(-9_in, DRIVE_SPEED, true);
-   chassis.pid_wait();
-   chassis.pid_drive_set(-4_in, 50, true);
-   chassis.pid_wait();
-   piston.set_value(true); //mobile
-
-   intake.move(-127); //scored begin
-
-   chassis.pid_drive_set(39_in, DRIVE_SPEED, true);
-   chassis.pid_wait();
-
-
-  pros::delay(200);
-  intake.move(0); //scored end
-
-   chassis.pid_turn_set(-90_deg, TURN_SPEED);
-   chassis.pid_wait();
-
-
-   
-   chassis.pid_drive_set(-54_in, DRIVE_SPEED, true);
-   chassis.pid_wait();
-
-   piston.set_value(false); //mogo end
-
-
-      
-   chassis.pid_drive_set(6.25_in, DRIVE_SPEED, true);
-   chassis.pid_wait();
-
-
-   chassis.pid_turn_set(-177_deg, TURN_SPEED);
-   chassis.pid_wait();
-
-   chassis.pid_drive_set(-7.5_in, DRIVE_SPEED, true);
-   chassis.pid_wait();
-
-
-   intake.move(-127);
-   pros::delay(2000);
-   intake.move(0);
-
-   chassis.pid_drive_set(10_in, 127, true);
-   chassis.pid_wait();
-
-   
-   chassis.pid_drive_set(-15_in, 127, true);
-   chassis.pid_wait();
-
-   
-   chassis.pid_drive_set(32_in, 80, true);
-   chassis.pid_wait();
-}
 void khabbazDrive(){
   arm_motor.move_absolute(-90,127);
   
    piston.set_value(false);
-   chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
+   chassis.pid_drive_set(-11_in, DRIVE_SPEED, true);
    chassis.pid_wait();
 
   chassis.pid_swing_set(ez::RIGHT_SWING, 55_deg, SWING_SPEED, 32);
@@ -134,7 +63,7 @@ void khabbazDrive(){
    chassis.pid_swing_set(ez::LEFT_SWING, 0_deg, SWING_SPEED, -30);
    chassis.pid_wait();
 
-   chassis.pid_drive_set(-4.5_in, 30, true);
+   chassis.pid_drive_set(-4.5_in, 80, true);
    chassis.pid_wait();
    piston.set_value(true); /// mobile goal token
   pros::delay(500);
@@ -154,21 +83,21 @@ void khabbazDrive(){
    chassis.pid_wait();
    chassis.pid_turn_set(-90_deg, TURN_SPEED);   
    chassis.pid_wait();
-   pros::delay(9000); //wait slee5 to go away ///11000
+   pros::delay(12000); //wait slee5 to go away ///11000
    chassis.pid_drive_set(-53_in, 90, true);
    chassis.pid_wait();
-   chassis.pid_drive_set(8_in, 60, true);
+   chassis.pid_drive_set(5_in, 60, true);
    chassis.pid_wait();
    chassis.pid_turn_set(-177_deg, TURN_SPEED);   
    chassis.pid_wait();
-   chassis.pid_drive_set(-6.9_in, 60, true);
+   chassis.pid_drive_set(-5.2_in, 60, true);
    chassis.pid_wait();
 
 
    intake.move(-127);
    pros::delay(2500);
-  chassis.pid_drive_set(30_in,DRIVE_SPEED , true);
-  chassis.pid_wait();
+   chassis.pid_drive_set(30_in,DRIVE_SPEED , true);
+   chassis.pid_wait();
 }
 
 void skillsTest_1(){
